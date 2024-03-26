@@ -6,13 +6,22 @@ const [password, setPassword ] = useState('');
 
 async function register(event){
     event.preventDefault();
-
-    const response  = await fetch('http://localhost:4000/register', { //async func so we need await
+        const response  = await fetch('http://localhost:4000/register', { //async func so we need await
         method: 'POST',
         body: JSON.stringify({username, password}),
-        headers: {'Content-Type' : 'application/json'},
-    });
+        headers: {'Content-Type' : 'application/json'}, });
     
+        if(response.status == 200){ //checking if the request was actually made and if the content is put in database
+            alert('Registration was Successful');
+            
+        }
+        else{
+            alert('Registration Failed. Try a different username.')
+            
+
+        }
+
+   
 
 }
     return(
