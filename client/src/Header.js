@@ -5,7 +5,7 @@ export default function Header(){
     return(
         <header>
 
-        <a href = "" className  = "logo">myBlog</a>
+        <Link to = "/" className  = "logo">myBlog</Link>
         <nav>
           <Link to="/login">Login</Link> 
           <Link to="/register">Register</Link> 

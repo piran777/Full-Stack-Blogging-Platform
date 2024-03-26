@@ -3,6 +3,9 @@ import Header from "./Header";
 import Post from "./Post";
 import Layout from "./Layout";
 import {Route, Routes} from "react-router-dom";
+import IndexPage from './pages/indexPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -10,16 +13,20 @@ function App() {
     <Routes>
       <Route path = "/" element = {<Layout />}> 
       <Route index element={ 
-          <Post />
+          <IndexPage />
       } />
       <Route path = {"/login"} element = {
-  
-          <div>
-            Login Page
-          </div>
+        <LoginPage />
+          
       }/>
 
+      <Route path = {"/register"} element = {
+        <RegisterPage />
+          
+      }/>
+   
     </Route>
+    
     </Routes>
   );
 }
