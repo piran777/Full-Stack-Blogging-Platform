@@ -40,7 +40,10 @@ app.post('/login', async (req,res) => {
         jwt.sign({username, id: userDoc._id}, secret, {}, (err,token)=>{
 
             if(err) throw err;
-            res.cookie('token', token).json('ok'); // here if our response is 200 ok then we use cookies to keep the user with correct credentials logged in 
+            res.cookie('token', token).json({
+                id: userDoc._id,
+                username,
+            }); // here if our response is 200 ok then we use cookies to keep the user with correct credentials logged in 
            
         });
     }
@@ -58,6 +61,11 @@ app.get('/profile' , (req,res) =>{ //endpoint for checking cookies and being log
         if (err) throw err;
         res.json(info)
     });
+});
+
+
+app.post('/logout', (req,res) =>{
+    res.cookie('token', '').json('ok');
 });
 
 app.listen(4000);

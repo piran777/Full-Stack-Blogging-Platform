@@ -1,41 +1,40 @@
-import './App.css';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {UserContext} from "./UserContext";
 
 export default function Header() {
-  const [username, setUsername] = useState(null);
-
+  const {setUserInfo,userInfo} = useContext(UserContext);
   useEffect(() => {
     fetch('http://localhost:4000/profile', {
       credentials: 'include',
-    })
-    .then(res => res.json())
-    .then(userInfo => {
-      setUsername(userInfo.username); // Set the username from the backend here
-    })
-    .catch(err => console.error(err)); // Always good to catch potential errors
-  }, []); // The empty array ensures this effect runs only once after the initial render
+    }).then(response => {
+      response.json().then(userInfo => {
+        setUserInfo(userInfo);
+      });
+    });
+  }, []);
 
-  function logout(){ //invalidate cookie
+  function logout() {
     fetch('http://localhost:4000/logout', {
-        credentials: 'include',
-        method: 'POST',
-    })
-
+      credentials: 'include',
+      method: 'POST',
+    });
+    setUserInfo(null);
   }
+
+  const username = userInfo?.username;
 
   return (
     <header>
-      <Link to="/" className="logo">myBlog</Link>
+      <Link to="/" className="logo">MyBlog</Link>
       <nav>
-        {username ? (
-          // If we have a username, display a page that says "Create post" instead of the login and register options
+        {username && (
           <>
-          <Link to="/create">Create new post</Link>
-          <a onClick={logout}> Logout</a>
+            <Link to="/create">Create new post</Link>
+            <a onClick={logout}>Logout ({username})</a>
           </>
-        ) : (
-          // If not logged in, show login and register options
+        )}
+        {!username && (
           <>
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>

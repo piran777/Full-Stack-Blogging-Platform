@@ -6,9 +6,12 @@ import {Route, Routes} from "react-router-dom";
 import IndexPage from './pages/indexPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import { UserContextProvider } from './UserContext';
 
 function App() {
   return (
+    <UserContextProvider>
+
 
     <Routes>
       <Route path = "/" element = {<Layout />}> 
@@ -28,6 +31,7 @@ function App() {
     </Route>
     
     </Routes>
+    </UserContextProvider>
   );
 }
 
