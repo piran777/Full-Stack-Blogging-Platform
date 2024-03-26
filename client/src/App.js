@@ -17,38 +17,68 @@ function App() {
 
 
         <div className = "entry">
+
+          <div className = "image"> 
           
-        <img src = "https://techcrunch.com/wp-content/uploads/2024/03/fisker-GettyImages.jpg?w=730&crop=1" alt = "" />
-          <h2>Fisker trading suspended by NYSE </h2>
+        <img src = "https://media.wired.com/photos/65ccd9f77471dc114917975f/master/w_960%2Cc_limit/Gear-Anker_MagGo_Qi2_Pad_2-SOURCE-Simon-Hill.jpg" alt = "" />
+        </div>
+        <div clasName = "texts"> 
+        <h2>The Best MagSafe Wireless Chargers </h2>
+        <p className = "info">
+          <a className = "author">Piran A. </a>
+          <time>2024-03-26 1:17</time>
+          
+           </p>
+        
+        <p className = "summary">KEEPING YOUR IPHONE topped up can be a challenge, but the clever magnetic MagSafe system means you don’t need to fumble with cables or worry about a wireless charging sweet spot. Apple’s MagSafe is an accessory system integrated into the iPhone 12, iPhone 13, iPhone 14, and iPhone 15 range.
 
-          <p>The New York Stock Exchange said Monday it will immediately suspend trading shares of EV startup Fisker and is moving to take the company off its stock exchange.
+       </p>
+        
+        </div>
+          
 
-The exchange said Monday that Fisker’s stock is “no longer suitable for listing” because of “abnormally low” price levels. The decision comes a month after Fisker was warned by the NYSE that its stock price had spent 30 days trading below $1, putting it out of compliance with the exchange’s rules.</p>
         </div>
 
         <div className = "entry">
+        <div className = "image"> 
+          <img src = "https://media.wired.com/photos/65ccd9f77471dc114917975f/master/w_960%2Cc_limit/Gear-Anker_MagGo_Qi2_Pad_2-SOURCE-Simon-Hill.jpg" alt = "" />
+         </div>
+         <div clasName = "texts"> 
+        <h2>The Best MagSafe Wireless Chargers </h2>
+        <p className = "info">
+          <a className = "author">Piran A. </a>
+          <time>2024-03-26 1:17</time>
           
-          <img src = "https://techcrunch.com/wp-content/uploads/2024/03/fisker-GettyImages.jpg?w=730&crop=1" alt = "" />
-            <h2>Fisker trading suspended by NYSE </h2>
-  
-            <p>The New York Stock Exchange said Monday it will immediately suspend trading shares of EV startup Fisker and is moving to take the company off its stock exchange.
+           </p>
+        
+        <p className = "summary">KEEPING YOUR IPHONE topped up can be a challenge, but the clever magnetic MagSafe system means you don’t need to fumble with cables or worry about a wireless charging sweet spot. Apple’s MagSafe is an accessory system integrated into the iPhone 12, iPhone 13, iPhone 14, and iPhone 15 range.
 
-The exchange said Monday that Fisker’s stock is “no longer suitable for listing” because of “abnormally low” price levels. The decision comes a month after Fisker was warned by the NYSE that its stock price had spent 30 days trading below $1, putting it out of compliance with the exchange’s rules. </p>
-          </div>
+       </p>
+        
+        </div>
+
+       </div>
   
 
           <div className = "entry">
+          <div className = "image"> 
+          <img src = "https://media.wired.com/photos/65ccd9f77471dc114917975f/master/w_960%2Cc_limit/Gear-Anker_MagGo_Qi2_Pad_2-SOURCE-Simon-Hill.jpg" alt = "" />
+           </div>
+           <div clasName = "texts"> 
+        <h2>The Best MagSafe Wireless Chargers </h2>
+        <p className = "info">
+          <a className = "author">Piran A. </a>
+          <time>2024-03-26 1:17</time>
           
-          <img src = "https://techcrunch.com/wp-content/uploads/2024/03/fisker-GettyImages.jpg?w=730&crop=1" alt = "" />
-            <h2>Fisker trading suspended by NYSE </h2>
-  
-            <p>The New York Stock Exchange said Monday it will immediately suspend trading shares of EV startup Fisker and is moving to take the company off its stock exchange.
+           </p>
+        
+        <p className = "summary">KEEPING YOUR IPHONE topped up can be a challenge, but the clever magnetic MagSafe system means you don’t need to fumble with cables or worry about a wireless charging sweet spot. Apple’s MagSafe is an accessory system integrated into the iPhone 12, iPhone 13, iPhone 14, and iPhone 15 range.
 
-The exchange said Monday that Fisker’s stock is “no longer suitable for listing” because of “abnormally low” price levels. The decision comes a month after Fisker was warned by the NYSE that its stock price had spent 30 days trading below $1, putting it out of compliance with the exchange’s rules.</p>
-          </div>
+       </p>
+        
+        </div>
   
-  
-
+      </div>
 
 
 
