@@ -1,20 +1,47 @@
 import './App.css';
-import { Link } from 'react-router-dom'; {/*  Use Link from react-router-dom instead of <a></a>  */}
-export default function Header(){
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-    return(
-        <header>
+export default function Header() {
+  const [username, setUsername] = useState(null);
 
-        <Link to = "/" className  = "logo">myBlog</Link>
-        <nav>
-          <Link to="/login">Login</Link> 
-          <Link to="/register">Register</Link> 
-        </nav>
+  useEffect(() => {
+    fetch('http://localhost:4000/profile', {
+      credentials: 'include',
+    })
+    .then(res => res.json())
+    .then(userInfo => {
+      setUsername(userInfo.username); // Set the username from the backend here
+    })
+    .catch(err => console.error(err)); // Always good to catch potential errors
+  }, []); // The empty array ensures this effect runs only once after the initial render
 
+  function logout(){ //invalidate cookie
+    fetch('http://localhost:4000/logout', {
+        credentials: 'include',
+        method: 'POST',
+    })
 
+  }
 
-      </header>
-    );
-
-
+  return (
+    <header>
+      <Link to="/" className="logo">myBlog</Link>
+      <nav>
+        {username ? (
+          // If we have a username, display a page that says "Create post" instead of the login and register options
+          <>
+          <Link to="/create">Create new post</Link>
+          <a onClick={logout}> Logout</a>
+          </>
+        ) : (
+          // If not logged in, show login and register options
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
+      </nav>
+    </header>
+  );
 }
