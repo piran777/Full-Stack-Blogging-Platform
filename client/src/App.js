@@ -5,6 +5,7 @@ import Layout from "./Layout";
 import {Route, Routes} from "react-router-dom";
 import IndexPage from './pages/indexPage';
 import LoginPage from './pages/LoginPage';
+import CreatePost from './pages/CreatePost';
 import RegisterPage from './pages/RegisterPage';
 import { UserContextProvider } from './UserContext';
 
@@ -25,6 +26,12 @@ function App() {
 
       <Route path = {"/register"} element = {
         <RegisterPage />
+          
+      }/>
+
+
+      <Route path = {"/create"} element = {
+        <CreatePost />
           
       }/>
    

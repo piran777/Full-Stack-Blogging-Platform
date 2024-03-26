@@ -5,9 +5,12 @@ mongoose.set('strictQuery', true);
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); //authentication
 const cookieParser = require('cookie-parser');
-
+const multer = require('multer');
+const fs = require('fs');
+const Post = require('./models/Post'); // Adjust the path as needed
+const uploadMiddleware = multer({dest: 'uploads/'});
 const salt = bcrypt.genSaltSync(10); //generate salt with bcrypt.
-const secret = "a77sfdffd77df7ffff77f7f7"; //use hardcoded here because its easier with jwt to do that way and its also best practice
+const secret = "x67gfh78o99lkljlfxd356dg"; //use hardcoded here because its easier with jwt to do that way and its also best practice
 const app = express();
 const User = require('./models/User');
 app.use(cors({credentials:true, origin: 'http://localhost:3000'}));
@@ -67,5 +70,34 @@ app.get('/profile' , (req,res) =>{ //endpoint for checking cookies and being log
 app.post('/logout', (req,res) =>{
     res.cookie('token', '').json('ok');
 });
+
+
+app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
+    const {originalname,path} = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path+'.'+ext;
+    fs.renameSync(path, newPath);
+  
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err,info) => {
+      if (err) throw err;
+      const {title,summary,content} = req.body;
+      const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover:newPath, //our path to file/image
+        author:info.id,
+      });
+      res.json(postDoc);
+    });
+  
+  });
+
+  app.get('/post',async  (req,res) => {
+    const posts = await Post.find();
+    res.json(posts);
+  } )
 
 app.listen(4000);
