@@ -55,7 +55,8 @@ Make an account or login to the one I gave above (User: Peter, Pas: Peter)
 
 Creating Posts: Authenticated users can create new blog posts using the "Create Post" feature.
 If you are not logged in your page will look like this and you won't be able to edit on any posts. You also won't be able to comment on any posts.
-![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/79248c52-a7d5-413d-a422-87e83b853184)
+![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/19c6bb75-ec80-4523-811c-a0a5f411cb43)
+
 
 Once you log in you will have access to the features of creating posts, editing posts, and commenting on posts.
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/dff54eb4-a765-4131-a432-cb08d5748ae3)
