@@ -48,8 +48,18 @@ export default function PostPage() {
             </div>
             <div className="content" dangerouslySetInnerHTML={{ __html: postInfo.content }} />
     
+        {/* Tags display section */}
+            {postInfo.tags && postInfo.tags.length > 0 && (
+            <div className="tags-section">
+                <h3>Tags:</h3>
+                <div className="tags">
+                {postInfo.tags.map((tag, index) => (
+                    <span key={index} className="tag">{tag}</span>
+                ))}
+                </div>
+            </div>
+            )}
             
-    
             <h2>Comments</h2> {/* Added this line */}
             <CommentForm postId={id} onCommentAdded={handleCommentAdded} />
             <div className="comments">

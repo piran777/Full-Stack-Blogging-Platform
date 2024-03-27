@@ -75,60 +75,91 @@ app.post('/logout', (req,res) =>{
 });
 
 //creating new post
-app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
-    const {originalname,path} = req.file;
-    const parts = originalname.split('.');
-    const ext = parts[parts.length - 1];
-    const newPath = path+'.'+ext;
-    fs.renameSync(path, newPath);
+app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+    // Destructure the title, summary, and content from the request body
+    const { title, summary, content } = req.body;
   
-    const {token} = req.cookies;
-    jwt.verify(token, secret, {}, async (err,info) => {
-      if (err) throw err;
-      const {title,summary,content} = req.body;
+    // Initialize an array to hold the tags
+    let tags = [];
+  
+    // Check if tags exist and are not an array (single tag case)
+    if (req.body.tags && !Array.isArray(req.body.tags)) {
+      tags = [req.body.tags];
+    } else if (req.body.tags) {
+      // If tags is an array (multiple tags), use it directly
+      tags = req.body.tags;
+    }
+  
+    // Process the uploaded file, if any
+    let newPath = '';
+    if (req.file) {
+      const { originalname, path } = req.file;
+      const parts = originalname.split('.');
+      const ext = parts[parts.length - 1];
+      newPath = path + '.' + ext;
+      fs.renameSync(path, newPath);
+    }
+  
+    try {
+      // Verify the token from cookies
+      const { token } = req.cookies;
+      const decodedToken = jwt.verify(token, secret);
+  
+      // Create the post with the provided data and the tags array
       const postDoc = await Post.create({
         title,
         summary,
         content,
-        cover:newPath, //our path to file/image
-        author:info.id,
+        cover: newPath, // Use the processed file path
+        author: decodedToken.id, // Use the author's ID from the decoded token
+        tags, // Use the tags array
       });
-      res.json(postDoc);
-    });
   
+      // Send back the created post data as the response
+      res.json(postDoc);
+    } catch (error) {
+      // If an error occurs, send a 400 or 500 status with the error message
+      res.status(400).json({ message: error.message });
+    }
   });
+  
 
-  //editing post
-  app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
+ // Editing post
+app.put('/post/:id', uploadMiddleware.single('file'), async (req, res) => {
     let newPath = null;
     if (req.file) {
-      const {originalname,path} = req.file;
+      const { originalname, path } = req.file;
       const parts = originalname.split('.');
       const ext = parts[parts.length - 1];
-      newPath = path+'.'+ext;
+      newPath = path + '.' + ext;
       fs.renameSync(path, newPath);
     }
   
-    const {token} = req.cookies;
-    jwt.verify(token, secret, {}, async (err,info) => {
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
       if (err) throw err;
-      const {id,title,summary,content} = req.body;
+  
+      const { title, summary, content, tags } = req.body;
+      const { id } = req.params; // Get the post ID from the URL parameters
+  
       const postDoc = await Post.findById(id);
       const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
       if (!isAuthor) {
-        return res.status(400).json('you are not the author');
+        return res.status(400).json('You are not the author');
       }
-      await postDoc.update({
+  
+      await postDoc.updateOne({
         title,
         summary,
         content,
         cover: newPath ? newPath : postDoc.cover,
+        tags,
       });
   
       res.json(postDoc);
     });
-  
   });
+  
 
   app.get('/post',async  (req,res) => {
     const posts = await Post.find().populate('author', ['username']).sort({createdAt: -1}).limit(20);

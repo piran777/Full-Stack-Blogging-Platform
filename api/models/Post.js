@@ -9,6 +9,7 @@ const PostSchema = new Schema({
   cover:String,
   author:{type:Schema.Types.ObjectId, ref:'User'},
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  tags: [String],
 }, {
   timestamps: true,
 });
