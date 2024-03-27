@@ -31,7 +31,7 @@ cd ..
 cd client
 npm install
 and yarn install
-Configuration
+
 
 Running the Application
 Start the backend server:
