@@ -8,7 +8,6 @@ body{
   color: #222;
 }
 img{
-  
   max-width: 100%;
 }
 img.p{
@@ -58,7 +57,7 @@ div.entry div.texts h2{
   font-size: 2rem;
 }
 
-div.post div.texts a{
+div.entry div.texts a{
   text-decoration: none;
   color: inherit;
 }
@@ -162,3 +161,62 @@ a svg{
   height: 20px;
 
 }
+/* Comments Section */
+div.comments {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+div.comment {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+div.comment-author {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+div.comment-content {
+  font-size: 0.8rem;
+  line-height: 1.4rem;
+}
+/* Comment Form */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+}
+
+.comment-form button {
+  padding: 5px 10px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #555;
+}
+

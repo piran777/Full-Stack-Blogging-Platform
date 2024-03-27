@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken'); //authentication
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const fs = require('fs');
+const Comment = require('./models/Comment'); // Adjust the path as needed
 const Post = require('./models/Post'); // Adjust the path as needed
 const uploadMiddleware = multer({dest: 'uploads/'});
 const salt = bcrypt.genSaltSync(10); //generate salt with bcrypt.
@@ -141,4 +142,28 @@ app.get('/post/:id', async (req,res) =>{
     const postDoc = await Post.findById(id).populate('author', ['username']); //search teh database for id (also specify username so that password isnt returned)
     res.json(postDoc);
 });
+
+app.post('/post/:postId/comment', async (req, res) => {
+    const { postId } = req.params;
+    const { content } = req.body;
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, userInfo) => {
+      if (err) return res.status(401).json('Unauthorized');
+      const comment = await Comment.create({
+        content,
+        author: userInfo.id,
+        post: postId,
+      });
+      await Post.findByIdAndUpdate(postId, { $push: { comments: comment._id } });
+      res.json(comment);
+    });
+  });
+
+  app.get('/post/:postId/comments', async (req, res) => {
+    const { postId } = req.params;
+    const comments = await Comment.find({ post: postId }).populate('author', ['username']);
+    res.json(comments);
+  });
+  
+  
 app.listen(4000);
