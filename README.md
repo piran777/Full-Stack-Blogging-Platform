@@ -1,5 +1,8 @@
-Full-Stack Blogging Platform Documentation
-Overview
+#Full-Stack Blogging Platform Documentation
+
+
+
+Overview:
 This document provides comprehensive documentation for the Full-Stack Blogging Platform. This platform allows users to create, edit, delete, and view blog posts. It supports user authentication, comments, and file uploads.
 
 Getting Started
