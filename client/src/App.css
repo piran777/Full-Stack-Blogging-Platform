@@ -305,3 +305,12 @@ div.comment-content {
 .tag:hover {
   background-color: #e0e0e0; /* Slightly darker grey on hover */
 }
+form.login, form.register {
+  max-width: 400px;
+  margin: 0 auto;
+  min-height: 100vh; /* This ensures that the form stretches to at least the full height of the viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* This centers the form vertically */
+  margin-top: -100px;
+}
