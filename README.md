@@ -103,3 +103,111 @@ Once you log in you will have access to the features of creating posts, editing 
 
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/06385678-8723-448f-ae2c-9bd7de77b2c9)
 
+
+
+
+## Code:
+
+## Backend:
+We have some schema for the database. basically in the models folder we have 3 js files which are used to create the schema for the database. One is for keeping posts saved in the database to be displayed (Post.js in the models folder). The second model is for the users and making sure the information is kept in the database. Finally I made one for comments so that I could store and display comments:
+
+ 
+## General Setup
+Express: It is used to create a web server that can listen for HTTP requests.
+CORS Middleware: Allows the server to accept requests from different origins, which is necessary during development since your front end might be served from a different server (like localhost:3000).
+Mongoose: Provides a way to interact with MongoDB. It is used for creating data models and handling database operations.
+bcryptjs: A library to hash passwords before storing them in the database, providing security against password theft.
+jsonwebtoken (JWT): Used for authentication. It creates a signed token that securely represents the user's identity.
+cookie-parser: Parses cookies attached to the client request object.
+multer: Middleware for handling multipart/form-data, primarily used for uploading files.
+fs (File System): A Node.js module to interact with the file system on the server.
+
+## Database Connection
+Connects to a MongoDB database using Mongoose. The connection string includes a username and password for authentication with the database.
+
+## User Registration
+POST /register: Allows new users to register. It receives a username and password, hashes the password, and creates a new user record in the database.
+
+## User Login
+POST /login: Authenticates users. It checks if the submitted password, after being hashed, matches the hash stored in the database. If successful, it creates a JWT and sends it back to the user as a cookie.
+
+## User Profile
+GET /profile: Returns user profile information. It reads the JWT from the cookies, verifies it, and sends back the user info if valid.
+
+## User Logout
+POST /logout: Logs out the user by clearing the token cookie.
+Post Creation
+POST /post: Handles creating new blog posts. It accepts title, summary, content, optional tags, and an image file. Tags are processed to ensure they are stored as an array. The image is saved to the server, and its path is stored in the post record.
+Post Editing
+PUT /post/:id: Updates an existing blog post. It requires the post's ID as a URL parameter. Only the author of the post can edit it, enforced by checking the JWT.
+## Fetch Posts
+GET /post: Retrieves a list of posts from the database, with a limit to prevent fetching too many records at once.
+Fetch a Single Post
+GET /post/:id: Retrieves a single post based on the provided ID.
+
+## Comments
+POST /post/:postId/comment: Allows users to comment on a post. It adds a new comment to the post's comments array.
+GET /post/:postId/comments: Retrieves all comments for a specific post.
+
+## Server Listening
+Finally, the code ends with the app.listen function that starts the server on port 4000.
+Each of these routes corresponds to an endpoint in the API, and each endpoint carries out a specific function necessary for the operation of a blogging platform, from user authentication to post and comment management.
+
+
+## Front-end: 
+
+## App.js:
+
+This is the main React component that wraps your entire application. It uses Routes from react-router-dom to define the navigation and layout of your application. Each Route maps a path to a component. The UserContextProvider is a context provider that allows you to manage and access user information across the entire application.
+
+## RegisterPage:
+
+A component for the user registration page. It contains a form where a user can enter a username and password to register. Upon form submission, it sends a POST request to the server's /register endpoint.
+
+## LoginPage:
+
+A component for the login page. Similar to RegisterPage, but for logging in. After successful login, it sets the user info in the UserContext and redirects to the home page.
+
+## PostPage:
+
+A component that displays a single post. It fetches the post and its comments from the server based on the post ID. It also allows users to add comments if they are logged in.
+
+## CreatePost:
+
+A component where users can create a new post. It has inputs for title, summary, content, and tags. It also includes ReactQuill, a rich text editor for the post content, and handles file uploads.
+
+## EditPost:
+
+Similar to CreatePost, but for editing existing posts. It pre-populates the form with the post's current data, which it fetches based on the post ID.
+
+## IndexPage:
+
+The home page of the application. It displays a list of posts fetched from the server's /post endpoint.
+
+## Header:
+
+A header component displayed across the site. It includes navigation links and handles user login state, displaying options to create a new post or log out depending on whether the user is logged in.
+
+## Layout:
+
+A layout component that renders the Header and an Outlet for nested routes. The Outlet will render the appropriate page content based on the current route.
+
+## CommentForm:
+
+A form for submitting comments. It's included within the PostPage component to allow users to add comments to a post.
+
+## Editor:
+
+A reusable rich text editor component based on ReactQuill that can be used for creating and editing post content.
+
+## UserContext:
+
+This file defines a UserContext for managing the user's login state throughout the application, allowing you to check if the user is logged in and to access user information where needed.
+
+## Post:
+
+A component that represents an individual post in a list view. It displays the post's title, summary, and cover image, and links to the full post page.
+
+These components collectively create a blogging platform where users can register, log in, create posts, edit their posts, and comment on others' posts. The application uses React's state management and context API to handle user authentication states and form submissions and leverages react-router-dom for navigation between different pages.
+
+
