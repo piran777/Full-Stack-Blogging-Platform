@@ -8,6 +8,8 @@ import LoginPage from './pages/LoginPage';
 import CreatePost from './pages/CreatePost';
 import RegisterPage from './pages/RegisterPage';
 import { UserContextProvider } from './UserContext';
+import PostPage from './pages/PostPage';
+import EditPost from './pages/EditPost';
 
 function App() {
   return (
@@ -32,6 +34,16 @@ function App() {
 
       <Route path = {"/create"} element = {
         <CreatePost />
+          
+      }/>
+
+      <Route path = {"/post/:id"} element = {
+        <PostPage />
+          
+      }/>
+
+      <Route path = {"/edit/:id"} element = {
+        <EditPost />
           
       }/>
    
