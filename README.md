@@ -3,15 +3,16 @@
 
 
 Overview:
-This document provides comprehensive documentation for the Full-Stack Blogging Platform. This platform allows users to create, edit, delete, and view blog posts. It supports user authentication, comments, and file uploads.
+This document provides comprehensive documentation for the Full-Stack Blogging Platform. This platform allows users to create, edit, comment, and view blog posts. It supports user authentication with jwt and allows registration of accounts and login functionality.
 
-Getting Started
-Prerequisites
+Prerequisites:
 Before running the project, ensure you have the following installed:
 
 Node.js (v14.0 or higher recommended)
 npm (Node Package Manager)
 MongoDB (Local or cloud-based)
+and also in your ide make sure that mongodb can be used. Vscode for example has an extension
+
 Installation
 Clone the repository:
 
@@ -66,6 +67,7 @@ Once you log in you will have access to the features of creating posts, editing 
 
 Creating a post:
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/b6a8a70e-9394-4d17-bd78-dcbcb1fe7ff0)
+
 Fill out the fields and make sure to have a picture to use in your files:
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/6dc67add-792b-476e-9e43-730e78efc27b)
 
@@ -74,13 +76,16 @@ We can then see the post is placed at the top of the blog with the author and ti
 
 If you want to look at a blog post individually to edit or comment on, click on either the title or picture of the blog. This will take you to the blog page for that specific post. Once there, if you are the creator of the post, you can click the edit button. If you are not the creator the edit button does not appear:
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/6344c96b-93f8-4b6b-9784-c0c22092ebb4)
+
 It looks the same as the creation page. You just edit whatever text you want and even change the picture and it will update it on the page:
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/1f4681ff-4290-405d-af15-b89bc075e389)
 
 At the bottom are the tags and also the comments section:
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/c7ddcade-a8b5-4967-b022-24aefc8da28d)
+
 Here is an example of what comments on a post look like:
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/d573c2e2-a8ac-4f84-abb1-8901ca9a8600)
+
 More examples from different posts:
 ![image](https://github.com/piran777/Full-Stack-Blogging-Platform/assets/90805441/06385678-8723-448f-ae2c-9bd7de77b2c9)
 
