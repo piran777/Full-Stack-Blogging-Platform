@@ -1,6 +1,96 @@
 ## Full-Stack Blogging Platform Documentation
+## GCP Commands and Deployment:
+
+Here are a list of Docker/Kubernetes commands I used on GCP. After this section is the documentation of the code. 
+
+ northamerica-northeast2 (toronto)
+
+docker stop 
+
+docker build -t northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/backend-image:v9 .
+
+docker build -t northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/frontend-image:v9 .
+
+docker push northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/backend-image:v9
+docker push northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/frontend-image:v9
+gcloud artifacts docker images list northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository
 
 
+docker pull northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/backend-image:v9
+docker run -d -p 4000:4000 northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/backend-image:v9
+
+docker pull northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/frontend-image:v9
+docker run -d -p 80:80 northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/frontend-image:v9
+
+
+gcloud container clusters create "my-cluster" --num-nodes=3 --zone="northamerica-northeast2-a" --machine-type="e2-medium"
+
+gcloud container clusters create "my-new-cluster" \
+    --num-nodes=3 \
+    --zone="northamerica-northeast2-a" \
+    --machine-type="e2-medium" \
+    --tags=http-server,https-server \
+    --disk-type=pd-standard \ 
+    --disk-size=10 
+
+
+kubectl set image deployment/backend-deployment backend=northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/backend-image:v9
+kubectl set image deployment/frontend-deployment frontend=northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/frontend-image:v9
+
+kubectl apply -f backend-deployment.yaml
+kubectl apply -f backend-service.yaml
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f frontend-service.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+# Install cert-manager
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.6.1/cert-manager.yaml
+
+# Create a ClusterIssuer or Issuer
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: piranaminullah@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress: 
+          class: nginx
+EOF
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - yourdomain.com
+    secretName: yourdomain-tls
+  rules:
+  - host: yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service
+            port:
+              number: 80
+
+gcloud compute addresses create piran-front-end-ip --global
+
+gcloud compute addresses describe piran-front-end-ip --global --format="get(address)"
 
 ## Overview:
 This document provides comprehensive documentation for the Full-Stack Blogging Platform. This platform allows users to create, edit, comment, and view blog posts. It supports user authentication with jwt and allows registration of accounts and login functionality.
