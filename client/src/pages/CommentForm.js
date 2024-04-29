@@ -8,7 +8,7 @@ function CommentForm({ postId, onCommentAdded }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim()) return;
-    const response = await fetch(`http://localhost:4000/post/${postId}/comment`, {
+    const response = await fetch(`http://34.130.156.109:4000/post/${postId}/comment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

@@ -11,13 +11,13 @@ export default function PostPage() {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:4000/post/${id}`).then(response => {
+        fetch(`http://34.130.156.109:4000/post/${id}`).then(response => {
             response.json().then(postInfo => {
                 setPostInfo(postInfo);
             });
         });
 
-        fetch(`http://localhost:4000/post/${id}/comments`)
+        fetch(`http://34.130.156.109:4000/post/${id}/comments`)
             .then(response => response.json())
             .then(setComments);
     }, [id]);
@@ -44,7 +44,7 @@ export default function PostPage() {
                 </div>
             )}
             <div className="image">
-                <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
+                <img src={`http://34.130.156.109:4000/${postInfo.cover}`} alt="" />
             </div>
             <div className="content" dangerouslySetInnerHTML={{ __html: postInfo.content }} />
     

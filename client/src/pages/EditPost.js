@@ -7,58 +7,80 @@ export default function EditPost() {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
-  const [tags, setTags] = useState(''); // Add tags state
-  const [files, setFiles] = useState('');
+  const [tags, setTags] = useState('');
+  const [files, setFiles] = useState(null);
   const [redirect, setRedirect] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
+  // Fetch post details when the component mounts or the id changes
   useEffect(() => {
-    fetch(`http://localhost:4000/post/${id}`)
-      .then(response => response.json())
+    setLoading(true);
+    fetch(`http://34.130.156.109:4000/post/${id}`, {
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch post details.');
+        }
+        return response.json();
+      })
       .then(postInfo => {
         setTitle(postInfo.title);
         setSummary(postInfo.summary);
         setContent(postInfo.content);
-        setTags(postInfo.tags.join(', ')); // Convert array of tags to string
+        setTags(postInfo.tags.join(', ')); // Convert array of tags to a comma-separated string
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching post:', error);
+        setError('Failed to load post.');
+        setLoading(false);
       });
   }, [id]);
 
   async function updatePost(ev) {
     ev.preventDefault();
-    
-    // Convert the tags from a comma-separated string to an array
+
     const tagsArray = tags.split(',').map(tag => tag.trim());
-  
-    const data = new FormData();
-    data.set('title', title);
-    data.set('summary', summary);
-    data.set('content', content);
-    data.append('tags', tagsArray); // Make sure this matches your server's expected format
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('summary', summary);
+    formData.append('content', content);
+    formData.append('tags', JSON.stringify(tagsArray));
     if (files?.[0]) {
-      data.append('file', files[0]);
+      formData.append('file', files[0]);
     }
-  
+
     try {
-        const response = await fetch(`http://localhost:4000/post/${id}`, {
+      const response = await fetch(`http://34.130.156.109:4000/post/${id}`, {
         method: 'PUT',
-        body: data,
+        body: formData,
         credentials: 'include',
       });
-  
-      console.log('Update response:', response);
-  
-      if (response.ok) {
-        console.log('Update successful, redirecting...');
-        setRedirect(true);
-      } else {
-        console.error('Update failed:', response.statusText);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      console.log('Update successful, redirecting...');
+      setRedirect(true);
     } catch (error) {
       console.error('Update error:', error);
+      setError('Failed to update post.');
     }
   }
-  
+
   if (redirect) {
     return <Navigate to={`/post/${id}`} />;
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -75,7 +97,7 @@ export default function EditPost() {
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
       />
-      <Editor value={content} onChange={(setContent)} />
+      <Editor value={content} onChange={setContent} />
       <input
         type="text"
         placeholder="Tags (separated by commas)"
@@ -86,7 +108,7 @@ export default function EditPost() {
         type="file"
         onChange={(e) => setFiles(e.target.files)}
       />
-      <button style={{ marginTop: '5px' }}>Update Post</button>
+      <button type="submit" style={{ marginTop: '5px' }}>Update Post</button>
     </form>
   );
 }

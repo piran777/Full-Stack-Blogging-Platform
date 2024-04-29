@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: mcrt-bc56d3d1-7d9e-4942-b078-0196e492a8bc
+spec:
+  domains:
+    - piranaminullah.space

@@ -14,7 +14,12 @@ const salt = bcrypt.genSaltSync(10); //generate salt with bcrypt.
 const secret = "x67gfh78o99lkljlfxd356dg"; //use hardcoded here because its easier with jwt to do that way and its also best practice
 const app = express();
 const User = require('./models/User');
-app.use(cors({credentials:true, origin: 'http://localhost:3000'}));
+app.use(cors({
+  origin: "http://34.130.212.169", // This should match your frontend's current external IP or be '*'
+  credentials: true,
+  
+  methods: ['GET', 'POST', 'PUT', 'DELETE']  // Ensure PUT is allowed
+}));
 //need the above in cors for my crednetials to work (cookies)
 app.use(express.json());
 
@@ -46,9 +51,15 @@ app.post('/login', async (req,res) => {
         jwt.sign({username, id: userDoc._id}, secret, {}, (err,token)=>{
 
             if(err) throw err;
-            res.cookie('token', token).json({
+            res.cookie('token', token, {
+              httpOnly: true,
+              secure: true, // set to true if you're using https
+              sameSite: 'None', // required if your frontend and backend are not on the same domain
+            }).json({
                 id: userDoc._id,
                 username,
+              
+                
             }); // here if our response is 200 ok then we use cookies to keep the user with correct credentials logged in 
            
         });
@@ -60,13 +71,21 @@ app.post('/login', async (req,res) => {
 });
 
 
-app.get('/profile' , (req,res) =>{ //endpoint for checking cookies and being logged in
-    //fetched in header.js
-    const {token} = req.cookies;
-    jwt.verify(token, secret, {}, (err,info)=>{
-        if (err) throw err;
-        res.json(info)
-    });
+app.get('/profile', (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+  if (token == null) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  jwt.verify(token, secret, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid token" });
+    }
+    req.user = user;
+    res.json(user);
+  });
 });
 
 

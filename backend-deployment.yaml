@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: northamerica-northeast2-docker.pkg.dev/blog-421520/my-repository/backend-image:v9
+        ports:
+        - containerPort: 4000
+        env:
+        - name: DATABASE_URL
+          value: mongodb+srv://piranaminullah:dN246Tvt5wjIA4GH@cluster0.bvqugh7.mongodb.net/
+        - name: CORS_ALLOWED_ORIGIN
+          value: "http://34.130.212.169"  # Replace with your frontend service IP or domain

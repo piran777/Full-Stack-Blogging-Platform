@@ -6,7 +6,7 @@ const [password, setPassword ] = useState('');
 
 async function register(event){
     event.preventDefault();
-        const response  = await fetch('http://localhost:4000/register', { //async func so we need await
+        const response  = await fetch('http://34.130.156.109:4000/register', { //async func so we need await
         method: 'POST',
         body: JSON.stringify({username, password}),
         headers: {'Content-Type' : 'application/json'}, });

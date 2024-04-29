@@ -4,23 +4,42 @@ import {UserContext} from "./UserContext";
 
 export default function Header() {
   const {setUserInfo,userInfo} = useContext(UserContext);
+  const { token } = userInfo;  // Assuming you store the token here
   useEffect(() => {
-    fetch('http://localhost:4000/profile', {
-      credentials: 'include',
-    }).then(response => {
-      response.json().then(userInfo => {
-        setUserInfo(userInfo);
+    if (token) { 
+      fetch('http://34.130.156.109:4000/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        },
+        credentials: 'include',
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch user profile');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setUserInfo({ ...userInfo, details: data });
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error);
+        // Optionally handle error state in UI here
       });
-    });
-  }, []);
+    }
+  }, [token, setUserInfo]);
+  
 
-  function logout() {
-    fetch('http://localhost:4000/logout', {
+  function logout(event) {
+    event.preventDefault();
+    fetch('http://34.130.156.109:4000/logout', {
       credentials: 'include',
       method: 'POST',
+    }).then(() => {
+      setUserInfo(null);
     });
-    setUserInfo(null);
   }
+  
 
   const username = userInfo?.username;
 

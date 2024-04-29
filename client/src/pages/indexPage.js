@@ -6,7 +6,7 @@ export default function IndexPage(){
     const [posts, setPosts] = useState([]);
     useEffect(() => {
 
-        const response = fetch('http://localhost:4000/post' ).then(response =>{ //get request because it is the default
+        const response = fetch('http://34.130.156.109:4000/post' ).then(response =>{ //get request because it is the default
             response.json().then(posts => {
                 setPosts(posts);
             
